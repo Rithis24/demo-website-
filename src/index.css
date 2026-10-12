@@ -47,21 +47,37 @@
   --shadow-xl: 0 24px 48px -12px rgba(15, 23, 42, 0.14);
 }
 
-/* Base Reset & Setup */
+/* Base Reset & Setup - Cross-Browser Hardening (Safari, Chrome, Edge, Firefox, iOS, Android) */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  scrollbar-width: none !important; /* Firefox */
-  -ms-overflow-style: none !important; /* IE and Edge */
+  -webkit-tap-highlight-color: transparent;
 }
 
-/* Hide scrollbar for Chrome, Safari, Edge, and Opera */
+/* Custom Sleek Scrollbar for Modern Browsers */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(56, 189, 248, 0.35) transparent;
+}
+
 *::-webkit-scrollbar {
-  display: none !important;
-  width: 0 !important;
-  height: 0 !important;
-  background: transparent !important;
+  width: 6px;
+  height: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: rgba(56, 189, 248, 0.28);
+  border-radius: 9999px;
+  border: 1px solid transparent;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(56, 189, 248, 0.55);
 }
 
 html {
@@ -71,9 +87,9 @@ html {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
   scroll-behavior: smooth;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
@@ -81,8 +97,7 @@ body {
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
 }
 
 #root {
@@ -289,8 +304,9 @@ h1, h2, h3, h4, h5, h6 {
   position: sticky;
   top: 0;
   z-index: 1000;
-  background-color: rgba(8, 15, 29, 0.96);
+  background-color: rgba(8, 15, 29, 0.94);
   backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   transition: all 0.25s ease;
 }
@@ -440,6 +456,7 @@ h1, h2, h3, h4, h5, h6 {
   width: 760px;
   background-color: rgba(9, 15, 28, 0.98);
   backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 12px;
   box-shadow: 0 24px 48px rgba(0, 0, 0, 0.7);
@@ -1380,24 +1397,139 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ==========================================================================
-   COOL SCROLL ANIMATION & VISUAL EFFECTS (60% Screen Trigger & Interactions)
+   WORLD-CLASS SCROLL ANIMATION & DYNAMIC VISUAL PHYSICS
+   Inspiration: Apple Pro, Porsche Design, Stripe, Linear
    ========================================================================== */
 
-/* 1. Scroll-triggered reveal effect */
+/* 1. Top Cyber-Laser Reading Progress Line */
+.top-scroll-laser-track {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: 10001;
+  pointer-events: none;
+  background: transparent;
+}
+
+.top-scroll-laser-bar {
+  height: 100%;
+  width: 100%;
+  transform-origin: left center;
+  background: linear-gradient(90deg, #0284c7 0%, #38bdf8 50%, #818cf8 100%);
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.6), 0 0 2px rgba(2, 132, 199, 0.8);
+  will-change: transform;
+  position: relative;
+  transition: transform 0.06s linear;
+}
+
+.top-scroll-laser-spark {
+  position: absolute;
+  right: 0;
+  top: -2px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  box-shadow: 0 0 12px #38bdf8, 0 0 6px #0284c7;
+}
+
+/* 2. Floating Circular Progress Indicator Orb (Back to Top) */
+.back-to-top-orb {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: #080f1d;
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.28);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45), 0 0 14px rgba(2, 132, 199, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 990;
+  opacity: 0;
+  transform: translateY(24px) scale(0.85);
+  pointer-events: none;
+  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 0.25s ease,
+              border-color 0.25s ease,
+              box-shadow 0.25s ease;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 0;
+}
+
+.back-to-top-orb.is-active {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+.back-to-top-orb:hover {
+  background-color: #0284c7;
+  color: #ffffff;
+  border-color: #38bdf8;
+  transform: translateY(-4px) scale(1.08);
+  box-shadow: 0 14px 32px rgba(2, 132, 199, 0.5), 0 0 20px rgba(56, 189, 248, 0.45);
+}
+
+.back-to-top-svg {
+  position: absolute;
+  inset: 0;
+  transform: rotate(-90deg);
+  pointer-events: none;
+}
+
+.back-to-top-circle-bg {
+  stroke: rgba(255, 255, 255, 0.1);
+}
+
+.back-to-top-circle-progress {
+  stroke: #38bdf8;
+  transition: stroke-dashoffset 0.08s linear;
+}
+
+.back-to-top-orb:hover .back-to-top-circle-progress {
+  stroke: #ffffff;
+}
+
+.back-to-top-icon-wrap {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.back-to-top-orb:hover .back-to-top-icon-wrap {
+  transform: translateY(-2px);
+}
+
+/* 3. Luxury Spring Scroll-Reveal System with Blur Dispersion */
 .scroll-reveal {
   opacity: 0;
-  transform: translateY(32px);
-  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: opacity, transform;
+  transform: translate3d(0, 36px, 0) scale(0.975);
+  filter: blur(5px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform, filter;
 }
 
 .scroll-reveal.is-visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: translate3d(0, 0, 0) scale(1);
+  filter: blur(0);
 }
 
-/* Cascading stagger delays for cards in grids */
+/* Cascading stagger delays for grids */
 .scroll-reveal[data-stagger="0"] { transition-delay: 0.04s; }
 .scroll-reveal[data-stagger="1"] { transition-delay: 0.12s; }
 .scroll-reveal[data-stagger="2"] { transition-delay: 0.20s; }
@@ -1405,91 +1537,140 @@ h1, h2, h3, h4, h5, h6 {
 .scroll-reveal[data-stagger="4"] { transition-delay: 0.36s; }
 .scroll-reveal[data-stagger="5"] { transition-delay: 0.44s; }
 
+/* 4. Interactive Card Specular Shine Spotlight (Mouse Follower) */
+.category-card, 
+.product-showcase-card, 
+.experience-step-card, 
+.new-arrival-banner {
+  position: relative;
+}
 
-/* 3. Floating Back to Top Button */
-.back-to-top-btn {
-  position: fixed;
-  bottom: 28px;
-  right: 28px;
-  width: 46px;
-  height: 46px;
-  border-radius: 50%;
-  background-color: #0f172a;
-  color: #38bdf8;
-  border: 1px solid rgba(56, 189, 248, 0.3);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35), 0 0 12px rgba(56, 189, 248, 0.2);
+.category-card::before,
+.product-showcase-card::before,
+.experience-step-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    480px circle at var(--mouse-x, -500px) var(--mouse-y, -500px),
+    rgba(56, 189, 248, 0.08),
+    transparent 50%
+  );
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  z-index: 1;
+}
+
+.category-card:hover::before,
+.product-showcase-card:hover::before,
+.experience-step-card:hover::before {
+  opacity: 1;
+}
+
+/* 5. Hero Telematics Metrics Bar */
+.hero-metrics-bar {
   display: flex;
   align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  z-index: 990;
-  opacity: 0;
-  transform: translateY(20px) scale(0.9);
-  pointer-events: none;
-  transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, border-color 0.2s ease;
+  gap: 32px;
+  margin-top: 48px;
+  padding-top: 32px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  flex-wrap: wrap;
 }
 
-.back-to-top-btn.is-active {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-  pointer-events: auto;
+.hero-metric-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
-.back-to-top-btn:hover {
-  background-color: #0284c7;
-  color: #ffffff;
-  border-color: #38bdf8;
-  transform: translateY(-3px) scale(1.08);
-  box-shadow: 0 12px 28px rgba(2, 132, 199, 0.4), 0 0 16px rgba(56, 189, 248, 0.4);
+.hero-metric-value {
+  font-family: var(--font-heading);
+  font-size: clamp(1.6rem, 2.6vw, 2.2rem);
+  font-weight: 800;
+  color: #38bdf8;
+  letter-spacing: -0.03em;
+  line-height: 1;
 }
 
-/* 4. Hero Section Silky Entrance Animations */
-@keyframes heroGlideIn {
-  from {
-    opacity: 0;
-    transform: translateY(28px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.hero-metric-label {
+  font-size: 0.8125rem;
+  color: #94a3b8;
+  font-weight: 500;
+  letter-spacing: 0.01em;
 }
 
-.hero-editorial-content .hero-eyebrow {
-  animation: heroGlideIn 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.1s backwards;
+.hero-metric-separator {
+  width: 1px;
+  height: 38px;
+  background-color: rgba(255, 255, 255, 0.12);
 }
 
-.hero-editorial-content .hero-headline {
-  animation: heroGlideIn 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.22s backwards;
-}
-
-.hero-editorial-content .hero-supporting {
-  animation: heroGlideIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.35s backwards;
-}
-
-.hero-editorial-content .hero-buttons {
-  animation: heroGlideIn 0.95s cubic-bezier(0.16, 1, 0.3, 1) 0.48s backwards;
-}
-
-/* 5. Interactive Depth & Lift on Cards */
+/* 6. Card Lift Physics */
 .card, .product-card, .category-card {
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
-              box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
               border-color 0.25s ease;
 }
 
 .card:hover, .product-card:hover, .category-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 16px 32px -8px rgba(15, 23, 42, 0.14), 0 0 0 1px rgba(2, 132, 199, 0.15);
+  box-shadow: 0 16px 36px -8px rgba(15, 23, 42, 0.16), 0 0 0 1px rgba(2, 132, 199, 0.2);
 }
 
-/* 6. Subtle Pulse on Accent Badges */
+/* 7. Subtle Pulse Shimmer on Badges */
 @keyframes subtleShimmer {
   0% { filter: brightness(1); }
-  50% { filter: brightness(1.12); }
+  50% { filter: brightness(1.15); }
   100% { filter: brightness(1); }
 }
 
 .badge-blue, .badge-amber {
   animation: subtleShimmer 4s ease-in-out infinite;
+}
+
+/* 8. Mobile & Safari Form Zoom Prevention (Critical Cross-Browser Fix) */
+@media (max-width: 768px) {
+  input, select, textarea {
+    font-size: 16px !important; /* Prevents auto-zoom in iOS Safari */
+  }
+  .back-to-top-orb {
+    bottom: 20px;
+    right: 20px;
+    width: 44px;
+    height: 44px;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-metrics-bar {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-top: 36px;
+    padding-top: 24px;
+  }
+  .hero-metric-separator {
+    display: none;
+  }
+}
+
+/* 9. Accessibility: Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .scroll-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
+  }
+  .top-scroll-laser-bar {
+    transition: none !important;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
 }

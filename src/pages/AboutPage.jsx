@@ -60,25 +60,25 @@ export default function AboutPage({ onOpenOrder }) {
                 gap: '16px'
               }}>
                 <div>
-                  <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#0369a1', fontFamily: 'var(--font-heading)' }}>
+                  <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#0369a1', fontFamily: 'var(--font-heading)' }} data-count="11570" data-suffix="+">
                     11,570+
                   </div>
                   <div style={{ fontSize: '0.8125rem', color: '#64748b' }}>Vehicles & Units Equipped</div>
                 </div>
                 <div>
-                  <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#0369a1', fontFamily: 'var(--font-heading)' }}>
+                  <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#0369a1', fontFamily: 'var(--font-heading)' }} data-count="20054" data-suffix="+">
                     20,054+
                   </div>
                   <div style={{ fontSize: '0.8125rem', color: '#64748b' }}>Customer Evaluations</div>
                 </div>
                 <div>
-                  <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#0369a1', fontFamily: 'var(--font-heading)' }}>
+                  <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#0369a1', fontFamily: 'var(--font-heading)' }} data-count="60" data-suffix="+">
                     60+
                   </div>
                   <div style={{ fontSize: '0.8125rem', color: '#64748b' }}>R&D & Field Specialists</div>
                 </div>
                 <div>
-                  <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#0369a1', fontFamily: 'var(--font-heading)' }}>
+                  <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#0369a1', fontFamily: 'var(--font-heading)' }} data-count="100" data-suffix="+">
                     100+
                   </div>
                   <div style={{ fontSize: '0.8125rem', color: '#64748b' }}>Commercial Hardware Models</div>

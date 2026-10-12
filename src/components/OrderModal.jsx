@@ -28,6 +28,18 @@ export default function OrderModal({ isOpen, onClose, preselectedProduct }) {
     }
   }, [preselectedProduct, isOpen]);
 
+  // Lock body scroll when modal is open
+  React.useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   const handleSubmit = (e) => {
@@ -49,13 +61,16 @@ export default function OrderModal({ isOpen, onClose, preselectedProduct }) {
       left: 0,
       width: '100%',
       height: '100%',
-      backgroundColor: 'rgba(15, 23, 42, 0.75)',
-      backdropFilter: 'blur(4px)',
+      backgroundColor: 'rgba(15, 23, 42, 0.78)',
+      backdropFilter: 'blur(8px)',
+      WebkitBackdropFilter: 'blur(8px)',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
       zIndex: 1000,
-      padding: '16px'
+      padding: '16px',
+      overflowY: 'auto',
+      WebkitOverflowScrolling: 'touch'
     }}>
       <div style={{
         backgroundColor: '#ffffff',

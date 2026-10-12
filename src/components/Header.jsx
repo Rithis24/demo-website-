@@ -30,11 +30,23 @@ export default function Header({ onOpenOrder }) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close menus on route change
+  // Close menus on route change and handle scroll lock
   useEffect(() => {
     setMobileMenuOpen(false);
     setProductsDropdownOpen(false);
+    document.body.style.overflow = '';
   }, [location.pathname]);
+
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileMenuOpen]);
 
   const productCategories = [
     { 

@@ -2,6 +2,17 @@ import React from 'react';
 import { X, ExternalLink, Download } from 'lucide-react';
 
 export default function CertificateModal({ isOpen, onClose, certificate }) {
+  React.useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
+
   if (!isOpen || !certificate) return null;
 
   return (
@@ -11,13 +22,16 @@ export default function CertificateModal({ isOpen, onClose, certificate }) {
       left: 0,
       width: '100%',
       height: '100%',
-      backgroundColor: 'rgba(15, 23, 42, 0.8)',
-      backdropFilter: 'blur(4px)',
+      backgroundColor: 'rgba(15, 23, 42, 0.82)',
+      backdropFilter: 'blur(8px)',
+      WebkitBackdropFilter: 'blur(8px)',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
       zIndex: 1000,
-      padding: '20px'
+      padding: '20px',
+      overflowY: 'auto',
+      WebkitOverflowScrolling: 'touch'
     }}>
       <div style={{
         backgroundColor: '#ffffff',

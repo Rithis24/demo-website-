@@ -77,6 +77,37 @@ export default function HomePage({ onOpenOrder }) {
                 <span>CONTACT US</span>
               </Link>
             </div>
+
+            {/* Live Telematics Metrics Bar */}
+            <div className="hero-metrics-bar">
+              <div className="hero-metric-item">
+                <div className="hero-metric-value" data-count="50000" data-suffix="+">
+                  50,000+
+                </div>
+                <div className="hero-metric-label">Highway Hours Logged</div>
+              </div>
+              <div className="hero-metric-separator" />
+              <div className="hero-metric-item">
+                <div className="hero-metric-value" data-count="99.8" data-suffix="%">
+                  99.8%
+                </div>
+                <div className="hero-metric-label">Hardware Reliability</div>
+              </div>
+              <div className="hero-metric-separator" />
+              <div className="hero-metric-item">
+                <div className="hero-metric-value" data-count="26" data-suffix="+">
+                  26+
+                </div>
+                <div className="hero-metric-label">Fleet Safety Systems</div>
+              </div>
+              <div className="hero-metric-separator" />
+              <div className="hero-metric-item">
+                <div className="hero-metric-value" data-count="100" data-suffix="%">
+                  100%
+                </div>
+                <div className="hero-metric-label">BIS & ISO Tested</div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
