@@ -1397,69 +1397,158 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ==========================================================================
-   WORLD-CLASS SCROLL ANIMATION & DYNAMIC VISUAL PHYSICS
-   Inspiration: Apple Pro, Porsche Design, Stripe, Linear
+   DYNAMIC PARTS-ASSEMBLY SCROLL ANIMATION SYSTEM
+   How each element in the web changes, moves, and forms together when scrolling
    ========================================================================== */
 
-/* 1. Top Cyber-Laser Reading Progress Line */
-.top-scroll-laser-track {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  z-index: 10001;
-  pointer-events: none;
-  background: transparent;
+/* 3D perspective stage for fluid physical formation */
+.product-showcase-grid,
+.experience-story-grid,
+.engineering-grid,
+.about-grid,
+.about-narrative-grid {
+  perspective: 1200px;
 }
 
-.top-scroll-laser-bar {
-  height: 100%;
-  width: 100%;
-  transform-origin: left center;
-  background: linear-gradient(90deg, #0284c7 0%, #38bdf8 50%, #818cf8 100%);
-  box-shadow: 0 0 10px rgba(56, 189, 248, 0.6), 0 0 2px rgba(2, 132, 199, 0.8);
-  will-change: transform;
-  position: relative;
-  transition: transform 0.06s linear;
+/* Base Assembly Transition Physics */
+.assemble-left,
+.assemble-right,
+.assemble-up,
+.assemble-from-left,
+.assemble-from-right,
+.assemble-sequential,
+.assemble-header,
+.scroll-reveal {
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity, filter;
 }
 
-.top-scroll-laser-spark {
-  position: absolute;
-  right: 0;
-  top: -2px;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background-color: #ffffff;
-  box-shadow: 0 0 12px #38bdf8, 0 0 6px #0284c7;
+/* 1. Left Parts: Angle & Glide Inward from Left */
+.assemble-left,
+.assemble-from-left {
+  opacity: 0;
+  transform: translate3d(-52px, 24px, 0) rotateY(-6deg) scale(0.93);
+  filter: blur(5px);
 }
 
-/* 2. Floating Circular Progress Indicator Orb (Back to Top) */
+.assemble-left.is-formed,
+.assemble-from-left.is-formed {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) rotateY(0deg) scale(1);
+  filter: blur(0);
+}
+
+/* 2. Right Parts: Angle & Glide Inward from Right */
+.assemble-right,
+.assemble-from-right {
+  opacity: 0;
+  transform: translate3d(52px, 24px, 0) rotateY(6deg) scale(0.93);
+  filter: blur(5px);
+}
+
+.assemble-right.is-formed,
+.assemble-from-right.is-formed {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) rotateY(0deg) scale(1);
+  filter: blur(0);
+}
+
+/* 3. Center Parts: Ascend with 3D Depth & Snap into Form */
+.assemble-up {
+  opacity: 0;
+  transform: translate3d(0, 56px, -40px) rotateX(10deg) scale(0.91);
+  filter: blur(5px);
+}
+
+.assemble-up.is-formed {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) rotateX(0deg) scale(1);
+  filter: blur(0);
+}
+
+/* 4. Section Headers: Rise Up & Unmask */
+.assemble-header {
+  opacity: 0;
+  transform: translate3d(0, 32px, 0) scale(0.98);
+  filter: blur(3px);
+}
+
+.assemble-header.is-formed {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+  filter: blur(0);
+}
+
+/* 5. Sequential Engineering & Narrative Feature Items */
+.assemble-sequential {
+  opacity: 0;
+  transform: translate3d(36px, 0, 0);
+  filter: blur(3px);
+}
+
+.assemble-sequential.is-formed {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  filter: blur(0);
+}
+
+/* Legacy fallback compatibility */
+.scroll-reveal {
+  opacity: 0;
+  transform: translate3d(0, 40px, 0) scale(0.96);
+  filter: blur(4px);
+}
+
+.scroll-reveal.is-formed,
+.scroll-reveal.is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+  filter: blur(0);
+}
+
+/* Stagger Delays: Parts Cascade In Waves as you Scroll */
+[data-stagger="0"] { transition-delay: 0.04s; }
+[data-stagger="1"] { transition-delay: 0.12s; }
+[data-stagger="2"] { transition-delay: 0.20s; }
+[data-stagger="3"] { transition-delay: 0.28s; }
+[data-stagger="4"] { transition-delay: 0.36s; }
+[data-stagger="5"] { transition-delay: 0.44s; }
+
+/* 6. Subtle Settle on Hardware Media Inside Cards */
+.product-showcase-media img,
+.category-card-media img {
+  transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: scale(1.06);
+}
+
+.is-formed .product-showcase-media img,
+.is-formed .category-card-media img {
+  transform: scale(1);
+}
+
+/* 7. Floating Back to Top Orb (Clean, subtle, no top line) */
 .back-to-top-orb {
   position: fixed;
   bottom: 28px;
   right: 28px;
-  width: 48px;
-  height: 48px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   background-color: #080f1d;
   color: #38bdf8;
-  border: 1px solid rgba(56, 189, 248, 0.28);
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45), 0 0 14px rgba(2, 132, 199, 0.25);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 0 12px rgba(2, 132, 199, 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   z-index: 990;
   opacity: 0;
-  transform: translateY(24px) scale(0.85);
+  transform: translateY(20px) scale(0.88);
   pointer-events: none;
-  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-              background-color 0.25s ease,
-              border-color 0.25s ease,
-              box-shadow 0.25s ease;
+  transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, border-color 0.2s ease;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   padding: 0;
@@ -1475,69 +1564,11 @@ h1, h2, h3, h4, h5, h6 {
   background-color: #0284c7;
   color: #ffffff;
   border-color: #38bdf8;
-  transform: translateY(-4px) scale(1.08);
-  box-shadow: 0 14px 32px rgba(2, 132, 199, 0.5), 0 0 20px rgba(56, 189, 248, 0.45);
+  transform: translateY(-3px) scale(1.08);
+  box-shadow: 0 12px 28px rgba(2, 132, 199, 0.45), 0 0 16px rgba(56, 189, 248, 0.4);
 }
 
-.back-to-top-svg {
-  position: absolute;
-  inset: 0;
-  transform: rotate(-90deg);
-  pointer-events: none;
-}
-
-.back-to-top-circle-bg {
-  stroke: rgba(255, 255, 255, 0.1);
-}
-
-.back-to-top-circle-progress {
-  stroke: #38bdf8;
-  transition: stroke-dashoffset 0.08s linear;
-}
-
-.back-to-top-orb:hover .back-to-top-circle-progress {
-  stroke: #ffffff;
-}
-
-.back-to-top-icon-wrap {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.back-to-top-orb:hover .back-to-top-icon-wrap {
-  transform: translateY(-2px);
-}
-
-/* 3. Luxury Spring Scroll-Reveal System with Blur Dispersion */
-.scroll-reveal {
-  opacity: 0;
-  transform: translate3d(0, 36px, 0) scale(0.975);
-  filter: blur(5px);
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-              filter 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: opacity, transform, filter;
-}
-
-.scroll-reveal.is-visible {
-  opacity: 1;
-  transform: translate3d(0, 0, 0) scale(1);
-  filter: blur(0);
-}
-
-/* Cascading stagger delays for grids */
-.scroll-reveal[data-stagger="0"] { transition-delay: 0.04s; }
-.scroll-reveal[data-stagger="1"] { transition-delay: 0.12s; }
-.scroll-reveal[data-stagger="2"] { transition-delay: 0.20s; }
-.scroll-reveal[data-stagger="3"] { transition-delay: 0.28s; }
-.scroll-reveal[data-stagger="4"] { transition-delay: 0.36s; }
-.scroll-reveal[data-stagger="5"] { transition-delay: 0.44s; }
-
-/* 4. Interactive Card Specular Shine Spotlight (Mouse Follower) */
+/* 8. Interactive Card Specular Shine Spotlight (Mouse Follower) */
 .category-card, 
 .product-showcase-card, 
 .experience-step-card, 
@@ -1569,7 +1600,7 @@ h1, h2, h3, h4, h5, h6 {
   opacity: 1;
 }
 
-/* 5. Hero Telematics Metrics Bar */
+/* 9. Hero Telematics Metrics Bar */
 .hero-metrics-bar {
   display: flex;
   align-items: center;
@@ -1608,7 +1639,7 @@ h1, h2, h3, h4, h5, h6 {
   background-color: rgba(255, 255, 255, 0.12);
 }
 
-/* 6. Card Lift Physics */
+/* 10. Card Lift Physics */
 .card, .product-card, .category-card {
   transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), 
               box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
@@ -1620,7 +1651,7 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: 0 16px 36px -8px rgba(15, 23, 42, 0.16), 0 0 0 1px rgba(2, 132, 199, 0.2);
 }
 
-/* 7. Subtle Pulse Shimmer on Badges */
+/* 11. Subtle Pulse Shimmer on Badges */
 @keyframes subtleShimmer {
   0% { filter: brightness(1); }
   50% { filter: brightness(1.15); }
@@ -1631,7 +1662,7 @@ h1, h2, h3, h4, h5, h6 {
   animation: subtleShimmer 4s ease-in-out infinite;
 }
 
-/* 8. Mobile & Safari Form Zoom Prevention (Critical Cross-Browser Fix) */
+/* 12. Mobile & Safari Form Zoom Prevention */
 @media (max-width: 768px) {
   input, select, textarea {
     font-size: 16px !important; /* Prevents auto-zoom in iOS Safari */
@@ -1639,8 +1670,8 @@ h1, h2, h3, h4, h5, h6 {
   .back-to-top-orb {
     bottom: 20px;
     right: 20px;
-    width: 44px;
-    height: 44px;
+    width: 42px;
+    height: 42px;
   }
 }
 
@@ -1657,15 +1688,19 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-/* 9. Accessibility: Reduced Motion Support */
+/* 13. Accessibility: Reduced Motion Support */
 @media (prefers-reduced-motion: reduce) {
+  .assemble-left,
+  .assemble-right,
+  .assemble-up,
+  .assemble-from-left,
+  .assemble-from-right,
+  .assemble-sequential,
+  .assemble-header,
   .scroll-reveal {
     opacity: 1 !important;
     transform: none !important;
     filter: none !important;
-    transition: none !important;
-  }
-  .top-scroll-laser-bar {
     transition: none !important;
   }
   *, *::before, *::after {

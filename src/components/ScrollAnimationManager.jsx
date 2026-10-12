@@ -3,46 +3,42 @@ import { useLocation } from 'react-router-dom';
 import { ArrowUp } from 'lucide-react';
 
 /**
- * ScrollAnimationManager — World-Class Automotive Tech Scroll System
+ * ScrollAnimationManager — Parts Coming In & Forming Scroll Animation System
  * Features:
- * 1. Top Cyber-Laser Scroll Reading Progress Line (Gradient with Glowing Pulse Tip)
- * 2. Floating Circular Progress Indicator Orb with Magnetic Back-to-Top Interaction
- * 3. Cinematic Blur Dispersion & Spring Scroll-Reveal Physics for Cards & Sections
- * 4. Staggered Cascading Grid Reveals
- * 5. Dynamic Scroll Number Counter Engine (counts smoothly from 0 to target on reveal)
- * 6. Interactive Card Specular Shine Spotlight Tracker
- * 7. 60/120fps Hardware-Accelerated Animation using requestAnimationFrame
- * 8. Safari, Chrome, Firefox, Edge, iOS & Android cross-browser hardening
+ * 1. ZERO top progress line (completely removed as requested).
+ * 2. Real parts-assembly scroll animation:
+ *    - Left cards tilt and glide in from the left.
+ *    - Right cards tilt and glide in from the right.
+ *    - Center cards elevate with 3D depth perspective and snap into form.
+ *    - Images inside containers gently settle from expanded perspective.
+ *    - Two-column splits (e.g. Engineering & About) assemble towards each other.
+ *    - Section titles unmask and ascend cleanly.
+ * 3. Dynamic count-up for statistics as their parent container forms.
+ * 4. Hardware-accelerated 60/120fps physics using translate3d and will-change.
+ * 5. Minimal, non-intrusive floating back-to-top button.
  */
 export default function ScrollAnimationManager() {
   const { pathname } = useLocation();
-  const [scrollProgress, setScrollProgress] = useState(0);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const rafIdRef = useRef(null);
 
-  // 1. Scroll Progress & Back-to-Top State with requestAnimationFrame (60/120fps smooth)
+  // 1. Back to Top Visibility Tracker
   useEffect(() => {
     let ticking = false;
 
-    const updateScrollMetrics = () => {
-      const scrollTop = window.scrollY || document.documentElement.scrollTop || 0;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = docHeight > 0 ? Math.min(100, Math.max(0, (scrollTop / docHeight) * 100)) : 0;
-
-      setScrollProgress(progress);
-      setShowBackToTop(scrollTop > 220);
-      ticking = false;
-    };
-
     const handleScroll = () => {
       if (!ticking) {
-        rafIdRef.current = window.requestAnimationFrame(updateScrollMetrics);
+        rafIdRef.current = window.requestAnimationFrame(() => {
+          const scrollTop = window.scrollY || document.documentElement.scrollTop || 0;
+          setShowBackToTop(scrollTop > 260);
+          ticking = false;
+        });
         ticking = true;
       }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    updateScrollMetrics();
+    handleScroll();
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
@@ -50,7 +46,7 @@ export default function ScrollAnimationManager() {
     };
   }, [pathname]);
 
-  // 2. Dynamic Number Counter Function
+  // 2. Animated Number Counter Engine
   const animateCounter = (el) => {
     if (el.dataset.counterAnimated === 'true') return;
     el.dataset.counterAnimated = 'true';
@@ -60,14 +56,14 @@ export default function ScrollAnimationManager() {
     const prefix = el.getAttribute('data-prefix') || '';
     if (isNaN(targetVal)) return;
 
-    const duration = 1400; // 1.4s silky count
+    const duration = 1200; // 1.2s smooth count
     const startTime = performance.now();
     const isInteger = Number.isInteger(targetVal);
 
     const updateCount = (currentTime) => {
       const elapsed = currentTime - startTime;
       const progress = Math.min(1, elapsed / duration);
-      // easeOutExpo for high-end snappy finish
+      // easeOutExpo for crisp finish
       const ease = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
       const currentVal = targetVal * ease;
 
@@ -90,51 +86,86 @@ export default function ScrollAnimationManager() {
     requestAnimationFrame(updateCount);
   };
 
-  // 3. Scroll Reveal Observer & Counter Triggering
+  // 3. Dynamic Parts Assembly & Formation Observer
   useEffect(() => {
     const timer = setTimeout(() => {
-      const targetSelectors = [
-        '.section-header',
-        '.card',
-        '.product-card',
-        '.category-card',
-        '.product-showcase-card',
-        '.engineering-feature-item',
-        '.experience-step-card',
-        '.credential-card',
-        '.gallery-photo-card',
-        '.b2b-cta-card',
-        '.experience-story-grid > div',
-        '.new-arrival-banner',
-        '.hero-metrics-bar',
-        '.about-narrative-grid > div',
-        '.video-cinematic-box',
-        '.stat-counter-item'
-      ];
+      // 3a. Prepare Section Headers for assembly
+      document.querySelectorAll('.section-header').forEach((header) => {
+        if (!header.classList.contains('assemble-header')) {
+          header.classList.add('assemble-header');
+        }
+      });
 
-      const elements = document.querySelectorAll(targetSelectors.join(', '));
-
-      // Group elements inside grids to assign stagger indices (0 - 5)
-      const grids = document.querySelectorAll(
-        '.grid-2, .grid-3, .grid-4, .product-showcase-grid, .experience-story-grid, .engineering-feature-list, .new-arrival-features-grid, .hero-metrics-bar'
+      // 3b. Prepare Two-Column Splits (Image left, content right or vice versa)
+      const splitGrids = document.querySelectorAll(
+        '.engineering-grid, .about-grid, .about-narrative-grid, .new-arrival-banner, .video-showcase-grid, .contact-grid'
       );
-      grids.forEach((grid) => {
-        const children = grid.children;
-        Array.from(children).forEach((child, idx) => {
-          if (!child.hasAttribute('data-stagger')) {
-            child.setAttribute('data-stagger', String(idx % 6));
+      splitGrids.forEach((grid) => {
+        const children = Array.from(grid.children);
+        if (children.length >= 2) {
+          if (!children[0].classList.contains('assemble-from-left')) {
+            children[0].classList.add('assemble-from-left');
+          }
+          if (!children[1].classList.contains('assemble-from-right')) {
+            children[1].classList.add('assemble-from-right');
+          }
+        }
+      });
+
+      // 3c. Prepare Multi-Column Card Grids for Dynamic Inward Assembly
+      const cardGrids = document.querySelectorAll(
+        '.product-showcase-grid, .experience-story-grid, .grid-2, .grid-3, .grid-4, .hero-metrics-bar'
+      );
+      cardGrids.forEach((grid) => {
+        const children = Array.from(grid.children);
+        children.forEach((child, idx) => {
+          child.setAttribute('data-stagger', String(idx % 6));
+
+          // Assign directional assembly vectors based on column position
+          const mod = idx % 3;
+          if (mod === 0) {
+            child.classList.add('assemble-left');
+          } else if (mod === 1) {
+            child.classList.add('assemble-up');
+          } else {
+            child.classList.add('assemble-right');
           }
         });
       });
 
-      // Intersection Observer for silky spring reveals
+      // 3d. Engineering feature sequential list items
+      document.querySelectorAll('.engineering-feature-item').forEach((item, idx) => {
+        item.classList.add('assemble-sequential');
+        item.setAttribute('data-stagger', String(idx % 6));
+      });
+
+      // 3e. All target candidate items to observe
+      const candidateSelectors = [
+        '.assemble-header',
+        '.assemble-left',
+        '.assemble-up',
+        '.assemble-right',
+        '.assemble-from-left',
+        '.assemble-from-right',
+        '.assemble-sequential',
+        '.category-card',
+        '.product-showcase-card',
+        '.experience-step-card',
+        '.b2b-cta-card',
+        '.credential-card',
+        '.hero-metrics-bar'
+      ];
+
+      const elements = document.querySelectorAll(candidateSelectors.join(', '));
+
+      // Intersection Observer triggering formation when element enters lower screen
       const observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
-              entry.target.classList.add('is-visible');
+              entry.target.classList.add('is-formed');
 
-              // Check if entry contains any number counters to animate
+              // Trigger any number counters inside
               const counters = entry.target.querySelectorAll('[data-count]');
               counters.forEach((c) => animateCounter(c));
               if (entry.target.hasAttribute('data-count')) {
@@ -146,19 +177,16 @@ export default function ScrollAnimationManager() {
           });
         },
         {
-          rootMargin: '0px 0px -8% 0px', // Triggers smoothly right as element glides into view
+          rootMargin: '0px 0px -10% 0px', // Triggers as element reaches lower 90% of screen
           threshold: 0.05
         }
       );
 
       elements.forEach((el) => {
-        if (!el.classList.contains('scroll-reveal')) {
-          el.classList.add('scroll-reveal');
-        }
-
+        // Elements already in top view on load form immediately
         const rect = el.getBoundingClientRect();
         if (rect.top <= window.innerHeight * 0.85) {
-          el.classList.add('is-visible');
+          el.classList.add('is-formed');
           const counters = el.querySelectorAll('[data-count]');
           counters.forEach((c) => animateCounter(c));
           if (el.hasAttribute('data-count')) {
@@ -169,23 +197,15 @@ export default function ScrollAnimationManager() {
         }
       });
 
-      // Also trigger any counters already in top view
-      document.querySelectorAll('[data-count]').forEach((counter) => {
-        const rect = counter.getBoundingClientRect();
-        if (rect.top <= window.innerHeight * 0.85) {
-          animateCounter(counter);
-        }
-      });
-
       return () => {
         observer.disconnect();
       };
-    }, 70);
+    }, 60);
 
     return () => clearTimeout(timer);
   }, [pathname]);
 
-  // 4. Interactive Card Spotlight Light Follower (Mouse Glow Effect)
+  // 4. Interactive Specular Card Hover Spotlight
   useEffect(() => {
     const handleMouseMove = (e) => {
       const card = e.currentTarget;
@@ -196,16 +216,16 @@ export default function ScrollAnimationManager() {
       card.style.setProperty('--mouse-y', `${y}px`);
     };
 
-    const interactiveCards = document.querySelectorAll(
+    const cards = document.querySelectorAll(
       '.category-card, .product-showcase-card, .experience-step-card, .new-arrival-banner, .b2b-cta-card'
     );
 
-    interactiveCards.forEach((card) => {
+    cards.forEach((card) => {
       card.addEventListener('mousemove', handleMouseMove);
     });
 
     return () => {
-      interactiveCards.forEach((card) => {
+      cards.forEach((card) => {
         card.removeEventListener('mousemove', handleMouseMove);
       });
     };
@@ -218,66 +238,16 @@ export default function ScrollAnimationManager() {
     });
   };
 
-  // SVG circular progress parameters
-  const radius = 20;
-  const circumference = 2 * Math.PI * radius; // ~125.66
-  const strokeDashoffset = circumference - (scrollProgress / 100) * circumference;
-
   return (
     <>
-      {/* 1. Top Cyber-Laser Reading Progress Line */}
-      <div 
-        className="top-scroll-laser-track" 
-        aria-hidden="true"
-      >
-        <div 
-          className="top-scroll-laser-bar" 
-          style={{ transform: `scaleX(${scrollProgress / 100})` }}
-        >
-          <div className="top-scroll-laser-spark" />
-        </div>
-      </div>
-
-      {/* 2. Floating Circular Progress Indicator Orb (Back to Top) */}
+      {/* Back to Top floating orb button (No top line!) */}
       <button
         onClick={scrollToTop}
         className={`back-to-top-orb ${showBackToTop ? 'is-active' : ''}`}
         aria-label="Scroll back to top"
-        title={`Scroll to top (${Math.round(scrollProgress)}%)`}
+        title="Scroll to top"
       >
-        {/* SVG Circular Track */}
-        <svg 
-          className="back-to-top-svg" 
-          width="48" 
-          height="48" 
-          viewBox="0 0 48 48"
-          aria-hidden="true"
-        >
-          <circle
-            className="back-to-top-circle-bg"
-            cx="24"
-            cy="24"
-            r={radius}
-            fill="none"
-            strokeWidth="2.5"
-          />
-          <circle
-            className="back-to-top-circle-progress"
-            cx="24"
-            cy="24"
-            r={radius}
-            fill="none"
-            strokeWidth="2.5"
-            strokeDasharray={circumference}
-            strokeDashoffset={strokeDashoffset}
-            strokeLinecap="round"
-          />
-        </svg>
-
-        {/* Center Arrow Icon */}
-        <div className="back-to-top-icon-wrap">
-          <ArrowUp size={18} />
-        </div>
+        <ArrowUp size={18} />
       </button>
     </>
   );
