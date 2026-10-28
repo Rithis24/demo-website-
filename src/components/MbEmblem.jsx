@@ -1,35 +1,44 @@
 import React from 'react';
 
 /**
- * Authentic MB Automotives India emblem badge.
+ * MbEmblem — 3D Rotating Automotive Precision Emblem
+ * - Symmetrical dual-sided 3D coin/shield
+ * - Both sides show the official MB logo emblem
+ * - Metallic electric blue gradient with chrome border (no black border)
+ * - Continuous 3D rotation with holographic shine sweep and interactive hover tilt
  */
-export default function MbEmblem({ size = 44, style = {} }) {
+export default function MbEmblem({ size = 42, className = '' }) {
   return (
-    <svg 
-      width={size} 
-      height={size} 
-      viewBox="0 0 54 54" 
-      fill="none" 
-      xmlns="http://www.w3.org/2000/svg"
-      style={{ flexShrink: 0, ...style }}
+    <div 
+      className={`emblem-3d-scene ${className}`} 
+      style={{ width: size, height: size }}
+      title="MB Automotives India — Precision Telematics"
+      aria-label="MB Automotives India"
     >
-      <rect 
-        x="3" 
-        y="3" 
-        width="48" 
-        height="48" 
-        rx="10" 
-        fill="#0369a1" 
-        stroke="#ffffff" 
-        strokeWidth="3" 
-      />
-      <g stroke="#ffffff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" fill="none">
-        <path d="M14 13.5V40.5" />
-        <path d="M14 13.5L20.5 28.5L27 13.5" />
-        <path d="M27 13.5V40.5" />
-        <path d="M27 13.5H35C38 13.5 39.5 16 39.5 19.5C39.5 23 38 25.5 35 25.5H27" />
-        <path d="M27 25.5H36C39.5 25.5 41 28.5 41 32.5C41 36.5 39.5 40.5 35.5 40.5H27" />
-      </g>
-    </svg>
+      <div className="emblem-3d-coin">
+        {/* 3D Extruded Depth Rim */}
+        <div className="emblem-3d-side-rim" />
+
+        {/* Front Face: MB Logo Icon */}
+        <div className="emblem-3d-face emblem-3d-face-front">
+          <img
+            src="/assets/branding/metrobasket-logo-icon.png"
+            alt="MB Automotives Emblem"
+            className="emblem-3d-img"
+          />
+          <div className="emblem-3d-shine" />
+        </div>
+
+        {/* Back Face: Identical MB Logo Icon */}
+        <div className="emblem-3d-face emblem-3d-face-back">
+          <img
+            src="/assets/branding/metrobasket-logo-icon.png"
+            alt="MB Automotives Emblem"
+            className="emblem-3d-img"
+          />
+          <div className="emblem-3d-shine" />
+        </div>
+      </div>
+    </div>
   );
 }
