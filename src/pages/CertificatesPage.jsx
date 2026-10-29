@@ -1,207 +1,130 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Award, ExternalLink, Download, FileCheck, CheckCircle, ArrowRight } from 'lucide-react';
-import siteConfig from '../data/siteConfig';
-import CertificateModal from '../components/CertificateModal';
+import React from 'react';
+import { Award, ShieldCheck, CheckCircle, Zap } from 'lucide-react';
+import CertificateLogoSlider from '../components/CertificateLogoSlider';
 
 export default function CertificatesPage({ onOpenOrder }) {
-  const [selectedCert, setSelectedCert] = useState(null);
+  const labBenches = [
+    {
+      title: 'Windshield Solar Thermal Chamber',
+      spec: '-20°C to +75°C Continuous Soak',
+      desc: 'Simulating extreme Indian summer solar baking on commercial bus windshields to guarantee supercapacitor reliability with zero fire or swell risks.',
+      image: '/assets/branding/about-hero-image.png'
+    },
+    {
+      title: 'Alternator Transient Surge Bench',
+      spec: 'DC 9V–36V Clamped Overvoltage',
+      desc: 'Injecting high-voltage inductive kickback spikes encountered during heavy diesel starter turnover to verify automotive power supply isolation.',
+      image: '/assets/products/mb-bus-black-box-smart-gallery-1.jpg'
+    },
+    {
+      title: '3-Axis Highway Vibration Rig',
+      spec: '10–500Hz Commercial Shock',
+      desc: 'Subjecting threaded aviation metal connectors, optical lenses, and circuit boards to prolonged high-frequency transit vibration without signal interruption.',
+      image: '/assets/products/mb-parking-sensor-gallery-1.png'
+    },
+    {
+      title: 'Starlight Night Optics Bench',
+      spec: '0.01 Lux Low-Light Calibration',
+      desc: 'Calibrating F/1.8 wide-angle lenses for unlit highway license plate readability, headlight glare suppression, and interior cabin passenger surveillance.',
+      image: '/assets/products/mb-dms-driver-monitoring-system-gallery-1.jpg'
+    }
+  ];
 
   return (
     <div className="certificates-page">
-      {/* Banner */}
-      <section style={{
-        backgroundColor: '#0a0f1d',
-        color: '#ffffff',
-        padding: '56px 0',
-        borderBottom: '1px solid #1e293b'
-      }}>
-        <div className="container">
-          <div className="eyebrow eyebrow-dark">LEGAL & QUALITY ASSURANCE</div>
-          <h1 style={{ fontSize: 'clamp(2rem, 3.5vw, 2.5rem)', fontWeight: 800, color: '#ffffff', marginBottom: '12px' }}>
-            Accreditations & Government Certifications
+      {/* Page Hero */}
+      <section
+        style={{
+          backgroundColor: '#070a12',
+          color: '#ffffff',
+          padding: '64px 0 48px 0',
+          borderBottom: '1px solid #1e293b'
+        }}
+      >
+        <div className="container text-center">
+          <span className="section-eyebrow section-eyebrow-dark">STATUTORY HOMOLOGATION & ACCREDITATIONS</span>
+          <h1 style={{ fontSize: 'clamp(2rem, 3.5vw, 2.75rem)', fontWeight: 800, color: '#ffffff', marginBottom: '14px' }}>
+            Regulatory Certifications & Quality Compliance
           </h1>
-          <p style={{ color: '#94a3b8', fontSize: '1.0625rem', maxWidth: '680px', lineHeight: 1.5 }}>
-            Verified government registrations and international quality management certifications validating MB Automotives India as an accredited manufacturing entity.
+          <p style={{ color: '#94a3b8', fontSize: '1.0625rem', maxWidth: '740px', margin: '0 auto', lineHeight: 1.6 }}>
+            Accredited by the Government of India, ISO 9001:2015 Quality Standards, and BIS Automotive Safety frameworks for commercial vehicle hardware.
           </p>
         </div>
       </section>
 
-      {/* Main Content */}
-      <section className="section" style={{ backgroundColor: '#ffffff' }}>
+      {/* KPI Accreditations Summary Row */}
+      <section style={{ backgroundColor: '#ffffff', borderBottom: '1px solid #e2e8f0', padding: '24px 0' }}>
         <div className="container">
-          <div className="grid-3" style={{ marginBottom: '48px' }}>
-            {siteConfig.certificatesList.map((cert) => (
-              <div
-                key={cert.id}
-                className="card"
-                style={{
-                  padding: '28px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  cursor: 'pointer'
-                }}
-                onClick={() => setSelectedCert(cert)}
-              >
-                {/* Certificate Thumbnail Preview */}
-                <div style={{
-                  height: '240px',
-                  backgroundColor: '#0f172a',
-                  borderRadius: '10px',
-                  overflow: 'hidden',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  marginBottom: '20px',
-                  border: '1px solid #e2e8f0'
-                }}>
-                  <img
-                    src={cert.image}
-                    alt={cert.title}
-                    style={{
-                      maxHeight: '100%',
-                      maxWidth: '100%',
-                      objectFit: 'contain'
-                    }}
-                  />
-                </div>
-
-                <div style={{ marginBottom: '10px' }}>
-                  <span className="badge badge-amber">{cert.badge}</span>
-                </div>
-
-                <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0f172a', marginBottom: '6px' }}>
-                  {cert.title}
-                </h3>
-
-                <div style={{ fontSize: '0.8125rem', color: '#64748b', marginBottom: '10px' }}>
-                  {cert.subtitle}
-                </div>
-
-                <div style={{
-                  fontSize: '0.8125rem',
-                  fontFamily: 'var(--font-mono)',
-                  color: '#0369a1',
-                  fontWeight: 600,
-                  backgroundColor: '#f0f9ff',
-                  padding: '6px 10px',
-                  borderRadius: '6px',
-                  marginBottom: '16px'
-                }}>
-                  REG NO: {cert.certNumber}
-                </div>
-
-                <p style={{ fontSize: '0.8125rem', color: '#475569', lineHeight: 1.6, marginBottom: '20px' }}>
-                  {cert.description}
-                </p>
-
-                <div style={{ marginTop: 'auto', display: 'flex', gap: '8px' }}>
-                  <button
-                    className="btn btn-secondary btn-sm"
-                    style={{ flex: 1 }}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setSelectedCert(cert);
-                    }}
-                  >
-                    <ExternalLink size={14} /> Full Document
-                  </button>
-                  <a
-                    href={cert.image}
-                    download
-                    className="btn btn-primary btn-sm"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <Download size={14} /> Save
-                  </a>
-                </div>
+          <div className="grid-4">
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '14px', backgroundColor: '#f8fafc', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
+              <Award size={28} color="#0284c7" />
+              <div>
+                <strong style={{ fontSize: '0.9375rem', color: '#0f172a', display: 'block' }}>ISO 9001:2015</strong>
+                <span style={{ fontSize: '0.75rem', color: '#64748b' }}>Quality Management Certified</span>
               </div>
-            ))}
-          </div>
-
-          {/* Verification Badges Showcase */}
-          <div style={{
-            backgroundColor: '#f8fafc',
-            border: '1px solid #e2e8f0',
-            borderRadius: '16px',
-            padding: '36px',
-            textAlign: 'center'
-          }}>
-            <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0f172a', marginBottom: '8px' }}>
-              Statutory Compliance & Standards Emblems
-            </h3>
-            <p style={{ color: '#64748b', fontSize: '0.875rem', marginBottom: '28px', maxWidth: '600px', margin: '0 auto 28px auto' }}>
-              Recognized under Indian industrial quality standards for automotive telemetry, vehicle GPS tracking, and optical recording devices.
-            </p>
-
-            <div style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              flexWrap: 'wrap',
-              gap: '32px'
-            }}>
-              {siteConfig.certificateBadges.map((badge) => (
-                <div
-                  key={badge.id}
-                  style={{
-                    backgroundColor: '#ffffff',
-                    border: '1px solid #e2e8f0',
-                    borderRadius: '10px',
-                    padding: '16px 20px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '12px',
-                    minWidth: '220px'
-                  }}
-                >
-                  <img src={badge.logo} alt={badge.name} style={{ height: '44px', objectFit: 'contain' }} />
-                  <div style={{ textAlign: 'left' }}>
-                    <div style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#0f172a' }}>{badge.name}</div>
-                    <div style={{ fontSize: '0.75rem', color: '#64748b' }}>{badge.label}</div>
-                  </div>
-                </div>
-              ))}
             </div>
-          </div>
 
-          {/* Dedicated Link to Channel Partners & OEM Collaborations */}
-          <div style={{
-            marginTop: '56px',
-            backgroundColor: '#0a0f1d',
-            borderRadius: '16px',
-            padding: '40px',
-            color: '#ffffff',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            flexWrap: 'wrap',
-            gap: '24px',
-            border: '1px solid #1e293b'
-          }}>
-            <div>
-              <div className="eyebrow eyebrow-dark">FLEET INTEGRATION ALLIANCES</div>
-              <h3 style={{ fontSize: '1.375rem', fontWeight: 800, color: '#ffffff', marginBottom: '6px' }}>
-                Our Channel Partners & OEM Collaborations
-              </h3>
-              <p style={{ color: '#94a3b8', fontSize: '0.875rem', margin: 0, maxWidth: '640px', lineHeight: 1.5 }}>
-                Explore commercial coach builders, public transport corporations, and interstate logistics operators integrating MB Automotives hardware across India.
-              </p>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '14px', backgroundColor: '#f8fafc', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
+              <ShieldCheck size={28} color="#0284c7" />
+              <div>
+                <strong style={{ fontSize: '0.9375rem', color: '#0f172a', display: 'block' }}>Govt. MSME Udyam</strong>
+                <span style={{ fontSize: '0.75rem', color: '#64748b' }}>UDYAM-TN-22-0008892</span>
+              </div>
             </div>
-            <Link to="/partners" className="btn btn-primary btn-lg">
-              <span>View Channel Partners</span>
-              <ArrowRight size={16} />
-            </Link>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '14px', backgroundColor: '#f8fafc', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
+              <CheckCircle size={28} color="#0284c7" />
+              <div>
+                <strong style={{ fontSize: '0.9375rem', color: '#0f172a', display: 'block' }}>BIS IS 616 : 2017</strong>
+                <span style={{ fontSize: '0.75rem', color: '#64748b' }}>Bureau of Indian Standards</span>
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '14px', backgroundColor: '#f8fafc', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
+              <Zap size={28} color="#0284c7" />
+              <div>
+                <strong style={{ fontSize: '0.9375rem', color: '#0f172a', display: 'block' }}>ZED MSME Bronze</strong>
+                <span style={{ fontSize: '0.75rem', color: '#64748b' }}>Zero Defect Zero Effect</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Modal */}
-      <CertificateModal
-        isOpen={Boolean(selectedCert)}
-        onClose={() => setSelectedCert(null)}
-        certificate={selectedCert}
-      />
+      {/* Auto-Scroll Moving Logos Slideshow (Matching User Design) */}
+      <CertificateLogoSlider />
+
+      {/* Environmental & Reliability Lab Rigor */}
+      <section className="section" style={{ backgroundColor: '#f8fafc', borderTop: '1px solid #e2e8f0' }}>
+        <div className="container">
+          <div className="section-header text-center">
+            <span className="section-eyebrow">LABORATORY RIGOR</span>
+            <h2 className="section-title">Environmental & Reliability Testing Benches</h2>
+            <p className="section-subtitle" style={{ margin: '0 auto' }}>
+              Commercial telematics hardware subjected to extreme temperature soak, 3-axis vibration, and transient overvoltage prior to fleet dispatch.
+            </p>
+          </div>
+
+          <div className="grid-4">
+            {labBenches.map((bench, idx) => (
+              <div key={idx} className="card" style={{ padding: '20px', display: 'flex', flexDirection: 'column' }}>
+                <div style={{ height: '140px', backgroundColor: '#070a12', borderRadius: '8px', overflow: 'hidden', marginBottom: '16px' }}>
+                  <img src={bench.image} alt={bench.title} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                </div>
+                <span className="badge badge-blue" style={{ alignSelf: 'flex-start', fontSize: '0.6875rem', marginBottom: '8px' }}>
+                  {bench.spec}
+                </span>
+                <h4 style={{ fontSize: '0.9375rem', fontWeight: 700, color: '#0f172a', marginBottom: '6px' }}>
+                  {bench.title}
+                </h4>
+                <p style={{ fontSize: '0.78125rem', color: '#64748b', lineHeight: 1.5, margin: 0 }}>
+                  {bench.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
