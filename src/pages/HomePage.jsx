@@ -20,7 +20,11 @@ import {
   Phone,
   Radio,
   Cpu,
-  Layers
+  Layers,
+  Thermometer,
+  Moon,
+  ChevronDown,
+  PlayCircle
 } from 'lucide-react';
 import PartnerLogoSlider from '../components/PartnerLogoSlider';
 import CertificateLogoSlider from '../components/CertificateLogoSlider';
@@ -50,45 +54,79 @@ export default function HomePage({ onOpenOrder }) {
 
         <div className="container">
           <div className="figma-hero-content">
+            {/* Top 2025 Fleet & Consumer Series Pill Badge */}
+            <div className="hero-top-badge">
+              <span className="hero-badge-dot">●</span>
+              <span className="hero-badge-title">2025 Fleet & Consumer Series</span>
+              <span className="hero-badge-divider">|</span>
+              <span className="hero-badge-subtitle">Engineered for Indian Climate</span>
+            </div>
+
+            {/* Main Headline */}
             <h1 className="figma-hero-title">
               Intelligent Automotive<br />
-              <span className="highlight">Vision & Telematics</span>
+              Vision & <span className="highlight-telematics">Telematics</span>
             </h1>
 
+            {/* Subtext Paragraph */}
             <p className="figma-hero-subtext">
-              Commercial-grade dual-lens recording, edge AI driver monitoring, and automotive-grade telemetry engineered for Indian transit conditions.
+              Precision 4K UHD & Dual-Channel Dashcams engineered for Indian road conditions. High-thermal endurance, supercapacitors, and AI road safety.
             </p>
 
+            {/* Action Buttons */}
             <div className="figma-hero-ctas">
-              <Link to="/products" className="btn btn-primary btn-lg">
-                <span>Explore Hardware</span>
+              <Link to="/products" className="btn-hero-primary">
+                <span>Explore Dashcams</span>
                 <ArrowRight size={17} />
               </Link>
-              <a href="#video-showcase" className="btn btn-outline-white btn-lg">
-                <Play size={16} fill="currentColor" />
-                <span>Watch In-Vehicle Video</span>
+              <a href="#video-showcase" className="btn-hero-secondary">
+                <PlayCircle size={18} />
+                <span>Watch Video Demonstration</span>
               </a>
             </div>
 
-            {/* Figma Hero Trust Strip */}
-            <div className="figma-hero-trust-bar">
-              <div className="figma-hero-pill">
-                <ShieldCheck size={15} color="#38bdf8" />
-                <span>ISO 9001:2015 Certified</span>
+            {/* Bottom 3-Metric Feature Dock */}
+            <div className="hero-spec-dock">
+              <div className="hero-spec-card">
+                <div className="hero-spec-icon-box">
+                  <Thermometer size={20} color="#38bdf8" />
+                </div>
+                <div className="hero-spec-text">
+                  <span className="hero-spec-label">HEAT RESISTANCE</span>
+                  <strong className="hero-spec-val">Up to 75°C Supercap</strong>
+                </div>
               </div>
-              <div className="figma-hero-pill">
-                <CheckCircle size={15} color="#38bdf8" />
-                <span>ARAI & BIS IS 616 Compliant</span>
+
+              <div className="hero-spec-divider" />
+
+              <div className="hero-spec-card">
+                <div className="hero-spec-icon-box">
+                  <Moon size={20} color="#38bdf8" />
+                </div>
+                <div className="hero-spec-text">
+                  <span className="hero-spec-label">NIGHT SENSOR</span>
+                  <strong className="hero-spec-val">Sony STARVIS 2 HDR</strong>
+                </div>
               </div>
-              <div className="figma-hero-pill">
-                <Zap size={15} color="#38bdf8" />
-                <span>DC 9V–36V Clamped</span>
-              </div>
-              <div className="figma-hero-pill">
-                <Award size={15} color="#38bdf8" />
-                <span>Make in India Engineering</span>
+
+              <div className="hero-spec-divider" />
+
+              <div className="hero-spec-card">
+                <div className="hero-spec-icon-box">
+                  <ShieldCheck size={20} color="#38bdf8" />
+                </div>
+                <div className="hero-spec-text">
+                  <span className="hero-spec-label">COMPLIANCE</span>
+                  <strong className="hero-spec-val">AIS-140 Certified</strong>
+                </div>
               </div>
             </div>
+
+            {/* Discover Scroll Indicator */}
+            <a href="#video-showcase" className="hero-discover-scroll" aria-label="Scroll to discover">
+              <span className="discover-text">DISCOVER</span>
+              <ChevronDown size={14} className="discover-chevron" />
+            </a>
           </div>
         </div>
       </section>
