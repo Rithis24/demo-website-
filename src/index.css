@@ -1447,9 +1447,9 @@ h1, h2, h3, h4, h5, h6 {
 
 .brand-logo-group:hover .emblem-3d-coin,
 .emblem-3d-scene:hover .emblem-3d-coin {
-  animation-play-state: paused;
-  transform: rotateY(28deg) rotateX(-12deg) scale(1.12);
-  filter: drop-shadow(0 0 12px rgba(56, 189, 248, 0.75));
+  animation: none !important;
+  transform: rotateY(0deg) rotateX(0deg) scale(1.06) !important;
+  filter: drop-shadow(0 4px 16px rgba(2, 132, 199, 0.55));
 }
 
 @keyframes rotate3dEmblem {
